@@ -23,22 +23,32 @@ namespace SportsStore.Controllers
             mRepo = repo;
         }
 
-        
-        public ViewResult List(int productPage =1 ) 
-            => View(new ProductsListViewModel
+
+        public ViewResult List(string category,int productPage = 1)
+        {
+            return View(new ProductsListViewModel
             {
                 Products = mRepo.Products
-                .OrderBy(p => p.ProductID)
-                .Skip((productPage-1)*PageSize)
-                .Take(PageSize),
+                        .Where(p => p.Category == null || p.Category == category)
+                    .OrderBy(p => p.ProductID)
+                    .Skip((productPage - 1) * PageSize)
+                    .Take(PageSize),
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = productPage,
                     ItemsPerPage = PageSize,
                     TotalItems = mRepo.Products.Count()
-                }
-                
+                },
+                CurrentCategory = category
+
             });
-        
+        }
+
+
+        public ViewResult Index()
+        {
+            return View();
+        }
+
     }
 }
