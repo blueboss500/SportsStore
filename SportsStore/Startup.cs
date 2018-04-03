@@ -71,7 +71,7 @@ namespace SportsStore
                 routes.MapRoute(name: null, template: "{controller}/{action}/{id?}");
             });
 
-
+            //Ensure the default db is populated
             SeedData.EnsurePopulated(app);
 
         }
